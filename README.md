@@ -229,13 +229,6 @@ pnpm test-client
 # → Shows full payment flow
 ```
 
-**Present:**
-1. "I built a working x402 PoC"
-2. Show code structure (x402-middleware.js is only ~80 lines)
-3. Show test client working
-4. Present deployment checklist
-5. "Ready for engineering to integrate with real @coinbase/x402"
-
 ### For Engineering Team
 
 1. Review `x402-middleware.js` - suggest improvements
@@ -256,7 +249,3 @@ pnpm test-client
 - Do we want payment history visible in dashboard?
 - Should we support more chains? (Arbitrum, Optimism?)
 - Pricing per endpoint or flat rate?
-
----
-
-Built with ❤️ by Abi (Product Lead, Zerion API)
