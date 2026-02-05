@@ -2,16 +2,27 @@
  * Zerion API - x402 Payment Integration Demo
  *
  * This demonstrates how to add x402 payment support to existing endpoints
+ *
+ * AUTHENTICATION: Zerion API uses HTTP Basic Auth
+ * - Username: Your API key (zk_dev_... or zk_prod_...)
+ * - Password: Empty string
+ * - Get API keys from: https://dashboard.zerion.io
+ * - Rate Limits: Dev keys = 300 calls/day
  */
 
 require('dotenv').config();
 const express = require('express');
+const axios = require('axios');
 const { x402PaymentMiddleware } = require('./x402-middleware');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// Zerion API configuration
+const ZERION_API_BASE = 'https://api.zerion.io/v1';
+const ZERION_API_KEY = process.env.ZERION_API_KEY;
 
 // ============================================================================
 // EXISTING API ENDPOINTS (API Key Required)
@@ -106,30 +117,64 @@ function isValidApiKey(apiKey) {
 }
 
 async function fetchTransactions(address) {
-  // TODO: Replace with actual Zerion transactions logic
-  // This is where you'd call your indexer, database, etc.
-  return [
-    {
-      hash: '0x123...',
-      from: address,
-      to: '0xabc...',
-      value: '1000000000000000000',
-      timestamp: Date.now(),
-      type: 'transfer',
-    },
-    // ... more transactions
-  ];
+  // Real Zerion API integration using HTTP Basic Auth
+  try {
+    const response = await axios.get(
+      `${ZERION_API_BASE}/wallets/${address}/transactions`,
+      {
+        auth: {
+          username: ZERION_API_KEY,
+          password: '', // Zerion requires empty password
+        },
+        params: {
+          'page[size]': 10, // Limit to 10 most recent
+        },
+      }
+    );
+
+    // Return in Zerion's format
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching transactions:', error.response?.status, error.message);
+
+    // Return error in consistent format
+    throw {
+      error: 'Failed to fetch transactions',
+      status: error.response?.status || 500,
+      message: error.message,
+    };
+  }
 }
 
 async function fetchPortfolio(address) {
-  // TODO: Replace with actual Zerion portfolio logic
-  return {
-    totalValue: '12345.67',
-    chains: {
-      ethereum: '10000',
-      base: '2345.67',
-    },
-  };
+  // Real Zerion API integration using HTTP Basic Auth
+  try {
+    const response = await axios.get(
+      `${ZERION_API_BASE}/wallets/${address}/portfolio`,
+      {
+        auth: {
+          username: ZERION_API_KEY,
+          password: '', // Zerion requires empty password
+        },
+        params: {
+          currency: 'usd',
+        },
+      }
+    );
+
+    // Return in Zerion's format:
+    // data.attributes.positions_distribution_by_type
+    // data.attributes.positions_distribution_by_chain
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching portfolio:', error.response?.status, error.message);
+
+    throw {
+      error: 'Failed to fetch portfolio',
+      status: error.response?.status || 500,
+      message: error.message,
+    };
+  }
 }
 
 // ============================================================================

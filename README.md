@@ -107,9 +107,13 @@ This will:
 
 ```
 zerion-x402-poc/
-├── x402-middleware.js    # Core x402 middleware (~80 lines)
-├── server.js             # Express server with x402 endpoints
-├── test-client.js        # Example client demonstrating flow
+├── x402-middleware.js        # Core x402 middleware (~80 lines)
+├── server.js                 # Express server with x402 endpoints (real Zerion API)
+├── test-client.js            # Example client demonstrating flow
+├── test-api-verified.js      # Verified working test with real API
+├── ZERION_API_REFERENCE.md   # Complete Zerion API docs (from testing)
+├── DEPLOYMENT.md             # K8s deployment guide
+├── TESTING.md                # Testing guide with verified results
 ├── package.json
 ├── .env.example
 └── README.md
@@ -239,9 +243,15 @@ pnpm test-client
 
 ## Resources
 
+### x402 Protocol
 - [Coinbase x402 Docs](https://docs.cdp.coinbase.com/x402/welcome)
 - [Zapper x402 Implementation](https://public.zapper.xyz/docs/x402)
 - [x402 Protocol Spec](https://github.com/coinbase/x402)
+
+### Zerion API
+- [Official Documentation](https://developers.zerion.io)
+- [Dashboard (Get API Keys)](https://dashboard.zerion.io)
+- [Complete API Reference](./ZERION_API_REFERENCE.md) - Based on real testing ✅
 
 ## Questions?
 
