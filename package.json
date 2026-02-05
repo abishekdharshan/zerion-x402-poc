@@ -1,0 +1,19 @@
+{
+  "name": "zerion-x402-poc",
+  "version": "1.0.0",
+  "description": "x402 payment integration proof-of-concept for Zerion API",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "test-client": "node test-client.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@coinbase/x402": "^1.0.0",
+    "viem": "^2.7.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "axios": "^1.6.5"
+  }
+}
